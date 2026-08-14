@@ -1,0 +1,1 @@
+"""HavenHunt Telegram bot package."""

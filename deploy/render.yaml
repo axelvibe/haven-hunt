@@ -1,0 +1,26 @@
+services:
+  # Free-tier friendly: a single web service running API + Telegram bot.
+  - type: web
+    name: haven-hunt
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "bash deploy/entrypoint.sh"
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: EMBEDDING_MODEL
+        value: text-embedding-3-small
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_BOT_USERNAME
+        value: haven_hunt_bot
+      - key: SIMPLYRETS_USERNAME
+        sync: false
+      - key: SIMPLYRETS_PASSWORD
+        sync: false
+      - key: SITE_URL
+        value: https://YOUR_USERNAME.github.io/haven-hunt/

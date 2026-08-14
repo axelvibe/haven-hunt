@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HavenHunt — Your AI property scout for Chicago</title>
+  <meta name="description" content="HavenHunt is a fully agentic real-estate organisation. Five specialised AI agents — Researcher, Designer, Maker, Communicator, Manager — collaborate to find you the right rental or home in Chicago." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">A fully agentic real-estate organisation · Chicago</p>
+      <h1>HavenHunt</h1>
+      <p class="sub">Five specialised AI agents working as one to find you the
+        <strong>right rental or home</strong> — just ask in plain English.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#chat">Try the chat</a>
+        <a class="btn btn-ghost" href="https://t.me/haven_hunt_bot" target="_blank" rel="noopener">Open on Telegram ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="how">
+      <h2>How it works</h2>
+      <p class="lead">The organisation runs a strict pipeline. Each agent's output is the next agent's input.</p>
+      <div class="pipeline">
+        <div class="stage"><span class="n">1</span><b>Researcher</b><small>finds the opportunity</small></div>
+        <div class="arrow">→</div>
+        <div class="stage"><span class="n">2</span><b>Designer</b><small>shapes the solution</small></div>
+        <div class="arrow">→</div>
+        <div class="stage"><span class="n">3</span><b>Maker</b><small>builds the product</small></div>
+        <div class="arrow">→</div>
+        <div class="stage"><span class="n">4</span><b>Communicator</b><small>tells the world</small></div>
+        <div class="arrow">→</div>
+        <div class="stage"><span class="n">5</span><b>Manager</b><small>keeps it aligned</small></div>
+      </div>
+    </section>
+
+    <section class="agents" id="agents">
+      <h2>Meet the organisation</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="avatar" style="--c:#4f8cff">R</div>
+          <h3>Riya · Researcher</h3>
+          <p class="tag">The Opportunity Finder · foresight</p>
+          <p>Meticulous and evidence-driven. She analyses markets, users and data to find the problems worth solving before anyone else does.</p>
+        </article>
+        <article class="card">
+          <div class="avatar" style="--c:#9b6dff">D</div>
+          <h3>Dario · Designer</h3>
+          <p class="tag">The Visionary · design thinking</p>
+          <p>Imaginative and user-obsessed. He turns research into a clear concept, conversation design and a buildable specification.</p>
+        </article>
+        <article class="card">
+          <div class="avatar" style="--c:#00b894">M</div>
+          <h3>Mina · Maker</h3>
+          <p class="tag">The Craftsman · rapid prototyping</p>
+          <p>Pragmatic and hands-on. She writes the code, wires the integrations and hardens everything until it ships without breaking.</p>
+        </article>
+        <article class="card">
+          <div class="avatar" style="--c:#f8a34d">C</div>
+          <h3>Cara · Communicator</h3>
+          <p class="tag">The Storyteller · persuasion</p>
+          <p>Warm and sharp. She turns the product into a story people want — copy, campaigns and a go-to-market plan.</p>
+        </article>
+        <article class="card">
+          <div class="avatar" style="--c:#e05d6f">M</div>
+          <h3>Marcus · Manager</h3>
+          <p class="tag">The Orchestrator · leadership</p>
+          <p>Calm and exacting. He reviews every handoff, keeps the chain aligned and decides what the organisation builds next.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chat" id="chat">
+      <h2>Find your place</h2>
+      <p class="lead">Ask HavenHunt for a rental or a home in Chicago.</p>
+      <div id="chatbox">
+        <div id="messages">
+          <div class="msg bot">👋 Hi! I'm HavenHunt. Try: “2-bed pet-friendly rental under $2,500 near the lake” or “3-bed house for sale in Lincoln Park”.</div>
+        </div>
+        <form id="chatform">
+          <input id="chatinput" type="text" placeholder="Ask about rentals or homes for sale…" autocomplete="off" />
+          <button type="submit" aria-label="Send">Send</button>
+        </form>
+        <p class="chat-foot" id="chatfoot"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><b>HavenHunt</b> — five agents, one unbroken pipeline. Built as a demonstration of a fully agentic organisation.</p>
+    <p class="small">Demo listings are simulated for illustration. See the <a href="https://github.com/axelvibe/haven-hunt" target="_blank" rel="noopener">source on GitHub</a>.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
