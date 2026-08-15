@@ -3,6 +3,6 @@
 // Otherwise it gracefully falls back to the Telegram bot.
 window.HH_CONFIG = window.HH_CONFIG || {
   apiUrl: "",                       // e.g. "https://haven-hunt.onrender.com"
-  telegramUrl: "https://t.me/haven_hunt_bot",
+  telegramUrl: "https://t.me/Irelandhousing_bot",
   siteUrl: "https://axelvibe.github.io/haven-hunt/"
 };
