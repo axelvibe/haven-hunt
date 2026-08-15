@@ -17,10 +17,8 @@ services:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: TELEGRAM_BOT_USERNAME
-        value: haven_hunt_bot
-      - key: SIMPLYRETS_USERNAME
-        sync: false
-      - key: SIMPLYRETS_PASSWORD
+        value: Irelandhousing_bot
+      - key: GOOGLE_MAPS_API_KEY
         sync: false
       - key: SITE_URL
-        value: https://YOUR_USERNAME.github.io/haven-hunt/
+        value: https://axelvibe.github.io/haven-hunt/
