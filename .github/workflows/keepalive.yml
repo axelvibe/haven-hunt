@@ -1,0 +1,24 @@
+name: Keep HavenHunt awake
+
+on:
+  schedule:
+    # Every 10 minutes — public-repo Actions minutes are free.
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render health endpoint
+        run: |
+          if [ -z "${{ vars.RENDER_URL }}" ]; then
+            echo "RENDER_URL repo variable not set yet — skipping."
+            exit 0
+          fi
+          curl -fsS -m 30 "${{ vars.RENDER_URL }}/health" \
+            && echo "HavenHunt API is alive" \
+            || echo "Health ping failed (service may be waking up)"
