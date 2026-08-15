@@ -5,8 +5,211 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HavenHunt — Your AI property scout for Ireland</title>
   <meta name="description" content="HavenHunt is a fully agentic real-estate organisation. Five specialised AI agents — Researcher, Designer, Maker, Communicator, Manager — collaborate to find you the right home in Ireland, using live Property Price Register (PPR) data." />
-  <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2e;
+      --panel-2: #16233d;
+      --line: #243349;
+      --text: #e8eefc;
+      --muted: #93a4c3;
+      --accent: #4f8cff;
+      --accent-2: #9b6dff;
+      --good: #00b894;
+      --warn: #f8a34d;
+      --danger: #e05d6f;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 80% -10%, #1a2a4d 0%, var(--bg) 55%) fixed;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 96px 24px 72px;
+      background:
+        radial-gradient(800px 400px at 20% 10%, rgba(79,140,255,.18), transparent 60%),
+        radial-gradient(700px 400px at 80% 20%, rgba(155,109,255,.15), transparent 60%);
+    }
+
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 8vw, 84px);
+      margin: 0 0 8px;
+      letter-spacing: -0.03em;
+      background: linear-gradient(90deg, #fff, var(--accent) 60%, var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sub { font-size: 19px; color: var(--muted); margin: 12px auto 28px; max-width: 620px; }
+    .sub strong { color: var(--text); }
+
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 26px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 24px rgba(79,140,255,.35); }
+    .btn-ghost { background: rgba(255,255,255,.06); color: var(--text); border: 1px solid var(--line); }
+
+    main { max-width: 1040px; margin: 0 auto; padding: 0 24px 80px; }
+
+    section { margin-top: 64px; }
+
+    h2 { font-size: 30px; margin: 0 0 6px; letter-spacing: -0.02em; }
+    .lead { color: var(--muted); margin-top: 0; }
+
+    /* pipeline */
+    .pipeline {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .stage {
+      flex: 1 1 150px;
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .stage .n {
+      display: inline-grid;
+      place-items: center;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .stage b { display: block; font-size: 15px; }
+    .stage small { color: var(--muted); font-size: 12px; }
+    .arrow { align-self: center; color: var(--accent); font-size: 22px; }
+
+    /* agent cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 18px;
+    }
+    .card h3 { margin: 12px 0 2px; font-size: 16px; }
+    .card .tag { color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 10px; }
+    .card p:last-child { color: var(--muted); font-size: 13.5px; margin: 0; }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c), #000 35%));
+    }
+
+    /* chat */
+    #chatbox {
+      margin-top: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      max-width: 680px;
+    }
+
+    #messages {
+      padding: 18px;
+      min-height: 220px;
+      max-height: 420px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .msg.bot { background: var(--panel-2); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg.user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .msg a { color: inherit; }
+
+    #chatform { display: flex; border-top: 1px solid var(--line); }
+    #chatinput {
+      flex: 1;
+      padding: 14px 16px;
+      background: transparent;
+      border: 0;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+    #chatform button {
+      border: 0;
+      background: var(--accent);
+      color: #fff;
+      padding: 0 22px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #chatform button:disabled { opacity: .5; cursor: wait; }
+    .chat-foot { margin: 10px 18px 14px; font-size: 12px; color: var(--muted); }
+    .pulse { margin: 12px 18px 20px; font-size: 12.5px; color: var(--muted); text-align: center; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 24px 40px;
+      text-align: center;
+      color: var(--muted);
+    }
+    footer .small { font-size: 12.5px; }
+    footer a { color: var(--accent); }
+  </style>
 </head>
 <body>
 
@@ -100,7 +303,154 @@
     <p class="small">Sales data from the <a href="https://www.propertypriceregister.ie" target="_blank" rel="noopener">Property Price Register</a> (PPR), which records sale prices but not bedrooms or floor area. Market index from the <a href="https://www.cso.ie" target="_blank" rel="noopener">CSO</a> Residential Property Price Index (HPM09). Rentals are simulated demo listings. See the <a href="https://github.com/axelvibe/haven-hunt" target="_blank" rel="noopener">source on GitHub</a>.</p>
   </footer>
 
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+  <script>
+    // HavenHunt web chat widget — configuration
+    // Talks to the HavenHunt API (product/web/api.py) when HH_API_URL is set.
+    // Otherwise it gracefully falls back to the Telegram bot.
+    window.HH_CONFIG = window.HH_CONFIG || {
+      apiUrl: "",                       // e.g. "https://haven-hunt.onrender.com"
+      telegramUrl: "https://t.me/Irelandhousing_bot",
+      siteUrl: "https://axelvibe.github.io/haven-hunt/"
+    };
+
+    (function () {
+      "use strict";
+
+      const cfg = window.HH_CONFIG || {};
+      const box = document.getElementById("messages");
+      const form = document.getElementById("chatform");
+      const input = document.getElementById("chatinput");
+      const foot = document.getElementById("chatfoot");
+
+      const escaper = document.createElement("div");
+      const esc = (s) => {
+        escaper.textContent = s;
+        return escaper.innerHTML;
+      };
+
+      function addMsg(text, who) {
+        const el = document.createElement("div");
+        el.className = "msg " + who;
+        el.textContent = text;
+        box.appendChild(el);
+        box.scrollTop = box.scrollHeight;
+        return el;
+      }
+
+      function addBotHtml(htmlStr) {
+        const el = document.createElement("div");
+        el.className = "msg bot";
+        el.innerHTML = htmlStr;
+        box.appendChild(el);
+        box.scrollTop = box.scrollHeight;
+        return el;
+      }
+
+      function listingCard(l) {
+        const price = l.listing_type === "rent"
+          ? "€" + Number(l.price).toLocaleString() + "/mo"
+          : "€" + Number(l.price).toLocaleString();
+        const beds = (l.beds === null || l.beds === undefined)
+          ? "beds not recorded"
+          : String(l.beds) + " bed";
+        const size = (l.sqft === null || l.sqft === undefined)
+          ? ""
+          : " · " + Number(l.sqft).toLocaleString() + " sq ft";
+        const img = l.image_url
+          ? '<img src="' + esc(l.image_url) + '" alt="" style="width:100%;border-radius:10px;margin-top:6px">'
+          : "";
+        const mapLink = (l.lat && l.lng)
+          ? ' · <a href="https://www.google.com/maps/search/?api=1&query=' +
+            l.lat + "," + l.lng + '" target="_blank" rel="noopener">🗺️ map</a>'
+          : "";
+        return (
+          '<div style="border:1px solid #243349;border-radius:12px;padding:10px;margin-top:8px;max-width:80%">' +
+          "<b>" + esc(l.title) + "</b><br>" +
+          "📍 " + esc(l.neighborhood + ", " + l.city + ", " + l.county) + mapLink + "<br>" +
+          "💰 " + price + " · 🛏 " + esc(beds) + size +
+          img +
+          "</div>"
+        );
+      }
+
+      function ask(query) {
+        if (cfg.apiUrl) {
+          return fetch(cfg.apiUrl.replace(/\/$/, "") + "/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: query })
+          }).then(function (r) { return r.json(); });
+        }
+        return Promise.reject(new Error("no-api"));
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const q = input.value.trim();
+        if (!q) return;
+
+        addMsg(q, "user");
+        input.value = "";
+        const typing = addMsg("…", "bot");
+
+        ask(q).then(function (data) {
+          typing.textContent = data.answer || "No answer.";
+          (data.listings || []).forEach(function (l) {
+            if (l.image_url) {
+              const beds = (l.beds === null || l.beds === undefined)
+                ? "beds not recorded" : l.beds + " bed";
+              const mapLink = (l.lat && l.lng)
+                ? '<br><a href="https://www.google.com/maps/search/?api=1&query=' +
+                  l.lat + "," + l.lng + '" target="_blank" rel="noopener">🗺️ View on Google Maps</a>'
+                : "";
+              const html =
+                "<div style='border:1px solid #243349;border-radius:12px;padding:8px;margin-top:8px;max-width:80%'>" +
+                "<img src='" + esc(l.image_url) + "' alt='" + esc(l.title) + "' style='width:100%;border-radius:8px'>" +
+                "<div style='margin-top:6px'><b>" + esc(l.title) + "</b><br>📍 " +
+                esc(l.neighborhood) + ", " + esc(l.city) + ", " + esc(l.county) + "<br>🛏 " +
+                esc(beds) + mapLink + "</div></div>";
+              addBotHtml(html);
+            }
+          });
+        }).catch(function (err) {
+          if (err && err.message === "no-api") {
+            typing.textContent =
+              "The live API isn't running yet. " +
+              "Message the bot on Telegram to search right now!";
+            addBotHtml(
+              "👉 <a href='" + esc(cfg.telegramUrl) + "' target='_blank' rel='noopener'><b>Open HavenHunt on Telegram</b></a>"
+            );
+            foot.textContent =
+              "Tip: set HH_API_URL (see config) to enable in-page search.";
+          } else {
+            typing.textContent = "Something went wrong. Please try again.";
+          }
+        });
+      });
+
+      foot.textContent = cfg.apiUrl
+        ? "Live search is connected to the HavenHunt API (PPR sales data)."
+        : "In-page live search needs HH_API_URL — you can still chat on Telegram.";
+
+      const pulse = document.getElementById("pulse");
+      const pulseText = document.getElementById("pulse-text");
+      if (pulse && pulseText && cfg.apiUrl) {
+        fetch(cfg.apiUrl.replace(/\/$/, "") + "/stats", { method: "GET" })
+          .then(function (r) { return r.json(); })
+          .then(function (s) {
+            if (s && s.national && s.national.index != null) {
+              const y = s.latest_period.slice(0, 4), m = s.latest_period.slice(4);
+              const yoy = s.national.change_12m;
+              pulseText.textContent =
+                "index " + s.national.index.toFixed(1) + " (Base 2015=100) · " +
+                "+" + yoy.toFixed(1) + "% vs a year ago · " + m + "/" + y +
+                " · source: " + s.source;
+              pulse.hidden = false;
+            }
+          })
+          .catch(function () { pulse.hidden = true; });
+      }
+    })();
+  </script>
 </body>
 </html>

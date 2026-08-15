@@ -21,9 +21,8 @@ HavenHunt is implemented as a Python monorepo under `product/`:
 | `product/shared/llm.py` | Lazy OpenAI singleton (thread-safe) | ✅ implemented |
 | `product/bot/main.py` | aiogram 3 entrypoint (polling, `get_me` check) | ✅ implemented (runtime verified imports; polling not run — invalid token) |
 | `product/bot/handlers.py` | `/start`, `/help`, `/search`, free-text search, quick-filter callbacks, cooldown | ✅ implemented |
-| `product/web/index.html` | GitHub Pages landing page (five agents, pipeline, chat widget) | ✅ implemented |
-| `product/web/app.js` / `config.js` | Chat widget with API + Telegram fallback | ✅ implemented |
-| `product/web/api.py` | FastAPI `/chat`, `/health`, static hosting | ✅ implemented + tested |
+| `product/web/index.html` | GitHub Pages landing page (five agents, pipeline, chat widget) — self-contained single file with inline CSS + JS | ✅ implemented |
+| `product/web/api.py` | FastAPI `/chat`, `/stats`, `/health`, static hosting | ✅ implemented + tested |
 
 ## Acceptance Criteria → Implementation (traceability)
 
