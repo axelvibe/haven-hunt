@@ -23,3 +23,4 @@ Thumbs.db
 node_modules/
 .embeddings_cache/
 .patch_backups/
+.ppr_cache.json

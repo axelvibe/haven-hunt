@@ -1,9 +1,10 @@
 # HavenHunt — a fully agentic real-estate organisation 🏠
 
-Five specialised AI agents work as one unbroken pipeline to find Chicago rentals
-and homes for sale. The product is a conversational assistant you can use on
-**Telegram** and on the **web**, and the organisation that built it is itself
-running — its artifacts ship in this repo.
+Five specialised AI agents work as one unbroken pipeline for the **Republic of
+Ireland** market: live sale prices from the **Property Price Register (PPR)**, demo
+rentals, and Google Maps geocoding. The product is a conversational assistant you
+can use on **Telegram** and on the **web**, and the organisation that built it is
+itself running — its artifacts ship in this repo.
 
 > **Live site:** https://axelvibe.github.io/haven-hunt/ (GitHub Pages)
 
@@ -26,17 +27,30 @@ can carry executable JSON patches that are applied to the repo, syntax-checked,
 tested, and auto-reverted if anything breaks. Ground-truth results are appended to
 the report so the Manager audits reality, not claims.
 
+## Data sources (knowledge base)
+
+- **Property Price Register (PPR)** — live Irish sales data. Statutory register of
+  every residential sale in Ireland since 2010 (`propertypriceregister.ie`). No
+  official API; live fetches use the community JSON API
+  (`priceregister.civictech.ie`) and a real offline snapshot of 3,288 sales ships in
+  `product/listings/data/ppr_snapshot.json`.
+- PPR records **sale prices only** — no beds/baths/floor area. Those fields are
+  `None` and shown as "not recorded". PPR is **sales-only** (no rentals).
+- **Google Maps API** — geocoding + map links via `product/listings/geocode.py`,
+  with an OpenStreetMap Nominatim fallback when no API key is set.
+- Rentals are **simulated demo data**, clearly labelled `demo`.
+
 ## Repo layout
 
 ```
 pipeline/        the organisation: agents, orchestrator, patch executor
 artifacts/       5-cycle output: research, design, build, GTM, exec summary, QA review
 product/
-  listings/      domain model, 48 curated Chicago listings, providers, search engine
+  listings/      domain model, 48 Irish demo rentals, PPR providers, geocoder, search
   bot/           Telegram chatbot (aiogram 3)
   web/           GitHub Pages landing page + FastAPI /chat API
   shared/        env config + lazy OpenAI client
-tests/           11 offline tests (pytest)
+tests/           18 offline tests (pytest)
 deploy/          Dockerfile, entrypoint, render.yaml
 .github/         Pages deployment workflow
 ```
@@ -62,7 +76,7 @@ python -m pipeline.run_pipeline --cycles 3            # multi-cycle refinement l
 uvicorn product.web.api:app --port 8000
 curl localhost:8000/health
 curl -X POST localhost:8000/chat -H "Content-Type: application/json" \
-     -d '{"query":"2-bed pet-friendly rental under $2,500 near the lake"}'
+     -d '{"query":"2-bed rental under €2,500 in Dublin"}'
 ```
 
 ### 3. Run the Telegram bot
@@ -86,7 +100,9 @@ Set these environment variables (never commit them):
 |---|---|---|
 | `OPENAI_API_KEY` | yes | OpenAI |
 | `TELEGRAM_BOT_TOKEN` | for bot | from @BotFather — must be valid (401 otherwise) |
-| `SIMPLYRETS_USERNAME` / `PASSWORD` | optional | enables live MLS listings |
+| `PPR_FETCH` | optional | `auto`/`on`/`off` — enables live PPR refresh |
+| `PPR_API_URL` | optional | live PPR JSON API (default: civictech) |
+| `GOOGLE_MAPS_API_KEY` | optional | enables Google geocoding (else OSM fallback) |
 | `WEB_RELAY_URL` | optional | the hosted API URL the web chat calls |
 | `SITE_URL` | optional | your Pages URL |
 
@@ -95,22 +111,20 @@ GitHub Actions secrets: `OPENAI_API_KEY`, `TELEGRAM_BOT_TOKEN`.
 ## Tests
 
 ```bash
-python -m pytest tests/ -q      # 11 tests, offline, no API calls
+python -m pytest tests/ -q      # 18 tests, offline, no API calls
 ```
 
 ## Security notes
 
 - Secrets live only in `.env` (git-ignored) or deployment secrets.
-- The OpenAI key and Telegram token were shared in plaintext for this exercise —
-  **rotate them** when done.
 - The supplied Telegram token returned HTTP 401 (not accepted by Telegram) — the bot
   won't poll until a fresh token from @BotFather is configured.
 
 ## Demo data & live data
 
-The product ships with 48 curated Chicago listings (demo, clearly labelled). To use
-live MLS data, add SimplyRETS credentials and the composite provider picks them up
-automatically (`product/listings/provider.py`).
+The product ships with 48 curated Irish demo rentals (clearly labelled `demo`) plus a
+real offline PPR snapshot of 3,288 Irish sales. When `PPR_FETCH` is on, the live PPR
+provider refreshes from the community API (`product/listings/provider.py`).
 
 ## The pipeline output
 

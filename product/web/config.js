@@ -1,4 +1,4 @@
-// HavenHunt web chat widget.
+// HavenHunt web chat widget (Ireland market).
 // Talks to the HavenHunt API (product/web/api.py) when HH_API_URL is set.
 // Otherwise it gracefully falls back to the Telegram bot.
 window.HH_CONFIG = window.HH_CONFIG || {

@@ -27,8 +27,8 @@ WEB_DIR = Path(__file__).resolve().parent
 
 app = FastAPI(
     title="HavenHunt API",
-    description="AI property-search assistant for Chicago rentals and sales.",
-    version="1.0.0",
+    description="AI property-search assistant for Ireland. Live sales data from the Property Price Register (PPR); demo rentals included.",
+    version="2.0.0",
 )
 
 app.add_middleware(
@@ -53,6 +53,20 @@ def health() -> dict[str, Any]:
 @app.post("/chat")
 def chat(req: ChatRequest) -> dict[str, Any]:
     return _search.answer(req.query or "", limit=5)
+
+
+class GeocodeRequest(BaseModel):
+    q: str
+
+
+@app.post("/geocode")
+def geocode(req: GeocodeRequest) -> dict[str, Any]:
+    from product.listings.geocode import geocode, maps_url
+
+    point = geocode(req.q)
+    if not point:
+        return {"query": req.q, "point": None, "map_url": None}
+    return {"query": req.q, "point": point, "map_url": maps_url(point["lat"], point["lng"])}
 
 
 # Static site (also usable standalone on Render/Railway if not on Pages)

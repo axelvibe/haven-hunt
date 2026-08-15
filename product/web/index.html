@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HavenHunt — Your AI property scout for Chicago</title>
-  <meta name="description" content="HavenHunt is a fully agentic real-estate organisation. Five specialised AI agents — Researcher, Designer, Maker, Communicator, Manager — collaborate to find you the right rental or home in Chicago." />
+  <title>HavenHunt — Your AI property scout for Ireland</title>
+  <meta name="description" content="HavenHunt is a fully agentic real-estate organisation. Five specialised AI agents — Researcher, Designer, Maker, Communicator, Manager — collaborate to find you the right home in Ireland, using live Property Price Register (PPR) data." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
 </head>
@@ -15,8 +15,9 @@
       <p class="eyebrow">Find your haven with a simple chat.</p>
       <h1>HavenHunt</h1>
       <p class="sub">AI-powered property searches that put you in control. Five
-        specialised agents work as one to find you the <strong>right rental or
-        home in Chicago</strong> — just ask in plain English.</p>
+        specialised agents work as one to help you understand what homes sold for
+        across <strong>Ireland</strong> — from live Property Price Register data —
+        just ask in plain English.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#chat">Start Your Search Now</a>
         <a class="btn btn-ghost" href="https://t.me/haven_hunt_bot" target="_blank" rel="noopener">Open on Telegram ↗</a>
@@ -79,13 +80,13 @@
 
     <section class="chat" id="chat">
       <h2>Find your place</h2>
-      <p class="lead">Ask HavenHunt for a rental or a home in Chicago.</p>
+      <p class="lead">Ask HavenHunt about Irish property — what homes sold for, or demo rentals.</p>
       <div id="chatbox">
         <div id="messages">
-          <div class="msg bot">👋 Hi! I'm HavenHunt. Try: “2-bed pet-friendly rental under $2,500 near the lake” or “3-bed house for sale in Lincoln Park”.</div>
+          <div class="msg bot">👋 Hi! I'm HavenHunt. Try: “2-bed rental under €2,500 in Dublin” or “what did 3-bed houses sell for in Cork?”</div>
         </div>
         <form id="chatform">
-          <input id="chatinput" type="text" placeholder="Ask about rentals or homes for sale…" autocomplete="off" />
+          <input id="chatinput" type="text" placeholder="Ask about Irish homes and sales…" autocomplete="off" />
           <button type="submit" aria-label="Send">Send</button>
         </form>
         <p class="chat-foot" id="chatfoot"></p>
@@ -95,7 +96,7 @@
 
   <footer>
     <p><b>HavenHunt</b> — five agents, one unbroken pipeline. Built as a demonstration of a fully agentic organisation.</p>
-    <p class="small">Demo listings are simulated for illustration. See the <a href="https://github.com/axelvibe/haven-hunt" target="_blank" rel="noopener">source on GitHub</a>.</p>
+    <p class="small">Sales data from the <a href="https://www.propertypriceregister.ie" target="_blank" rel="noopener">Property Price Register</a> (PPR), which records sale prices but not bedrooms or floor area. Rentals are simulated demo listings. See the <a href="https://github.com/axelvibe/haven-hunt" target="_blank" rel="noopener">source on GitHub</a>.</p>
   </footer>
 
   <script src="config.js"></script>

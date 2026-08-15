@@ -34,17 +34,26 @@
 
   function listingCard(l) {
     const price = l.listing_type === "rent"
-      ? "$" + Number(l.price).toLocaleString() + "/mo"
-      : "$" + Number(l.price).toLocaleString();
+      ? "€" + Number(l.price).toLocaleString() + "/mo"
+      : "€" + Number(l.price).toLocaleString();
+    const beds = (l.beds === null || l.beds === undefined)
+      ? "beds not recorded"
+      : String(l.beds) + " bed";
+    const size = (l.sqft === null || l.sqft === undefined)
+      ? ""
+      : " · " + Number(l.sqft).toLocaleString() + " sq ft";
     const img = l.image_url
       ? '<img src="' + esc(l.image_url) + '" alt="" style="width:100%;border-radius:10px;margin-top:6px">'
+      : "";
+    const mapLink = (l.lat && l.lng)
+      ? ' · <a href="https://www.google.com/maps/search/?api=1&query=' +
+        l.lat + "," + l.lng + '" target="_blank" rel="noopener">🗺️ map</a>'
       : "";
     return (
       '<div style="border:1px solid #243349;border-radius:12px;padding:10px;margin-top:8px;max-width:80%">' +
       "<b>" + esc(l.title) + "</b><br>" +
-      "📍 " + esc(l.neighborhood + ", " + l.city) + "<br>" +
-      "💰 " + esc(l.type_label ? l.type_label() : "") + " — " + price +
-      " · 🛏 " + esc(String(l.beds)) + " bed · " + esc(String(l.sqft)) + " sqft" +
+      "📍 " + esc(l.neighborhood + ", " + l.city + ", " + l.county) + mapLink + "<br>" +
+      "💰 " + price + " · 🛏 " + esc(beds) + size +
       img +
       "</div>"
     );
@@ -77,11 +86,18 @@
           if (l.type_label) { /* keep */ }
         } catch (_) {}
         if (l.image_url) {
+          const beds = (l.beds === null || l.beds === undefined)
+            ? "beds not recorded" : l.beds + " bed";
+          const mapLink = (l.lat && l.lng)
+            ? '<br><a href="https://www.google.com/maps/search/?api=1&query=' +
+              l.lat + "," + l.lng + '" target="_blank" rel="noopener">🗺️ View on Google Maps</a>'
+            : "";
           const html =
             "<div style='border:1px solid #243349;border-radius:12px;padding:8px;margin-top:8px;max-width:80%'>" +
             "<img src='" + esc(l.image_url) + "' alt='" + esc(l.title) + "' style='width:100%;border-radius:8px'>" +
             "<div style='margin-top:6px'><b>" + esc(l.title) + "</b><br>📍 " +
-            esc(l.neighborhood) + ", " + esc(l.city) + "</div></div>";
+            esc(l.neighborhood) + ", " + esc(l.city) + ", " + esc(l.county) + "<br>🛏 " +
+            esc(beds) + mapLink + "</div></div>";
           addBotHtml(html);
         }
       });
@@ -102,6 +118,6 @@
   });
 
   foot.textContent = cfg.apiUrl
-    ? "Live search is connected to the HavenHunt API."
+    ? "Live search is connected to the HavenHunt API (PPR sales data)."
     : "In-page live search needs HH_API_URL — you can still chat on Telegram.";
 })();

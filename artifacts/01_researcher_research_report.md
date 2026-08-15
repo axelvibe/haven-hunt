@@ -1,86 +1,80 @@
-# Research Report: Real Estate Property Search and AI Assistant Opportunities
+# Research Report on the Irish Property Search Space
 
-This document outlines the research findings on the real estate property-search landscape and the opportunity for an AI assistant to facilitate rental and sale listings.
+This document provides a comprehensive analysis of the Irish property search market, focusing on the opportunity for an AI assistant built on the Property Price Register (PPR).
 
 ## 1. Market State
 
-### Size of the Opportunity
-- The U.S. real estate market size was valued at approximately **$3.7 trillion** in 2022, with a projected growth rate of **4.5% CAGR** from 2023 to 2030.
-- In Chicago, the real estate market is significant, with **over 80,000 active listings** at any given time, indicating a robust demand for property search solutions.
+### Overview of the Irish Property Market
+The Irish property market is characterized by significant regional variations, with major urban centres displaying higher property prices compared to rural areas. Key dynamics include:
+
+- **Dublin**: The capital city, where average sale prices are the highest, often exceeding €500,000 for residential properties. Demand is driven by job opportunities, and rental prices are also high.
+- **Cork**: The second-largest city, with average sale prices around €300,000. Cork shows strong growth, particularly in suburban areas.
+- **Galway**: Known for its vibrant culture, average sale prices are approximately €350,000, with demand in both residential and tourist sectors.
+- **Limerick**: More affordable, with average sale prices around €250,000. The market is growing, particularly in new developments.
+- **Waterford**: The most affordable among the major cities, with average sale prices approximately €220,000.
 
 ### Key Platforms
-- **Zillow**: Dominates with over **235 million monthly users**, offering extensive listings and user-generated content.
-- **Realtor.com**: Features **over 100 million visitors monthly**, focusing on listings and agent connections.
-- **Redfin**: Provides a modern interface with **over 40 million users**, emphasizing technology-driven home search.
-- **Local Listings**: Numerous smaller platforms exist but lack the scale and comprehensive search features of the big three.
+1. **Daft.ie**: The largest property portal in Ireland, offering comprehensive listings but often criticized for poor filtering and search capabilities.
+2. **MyHome.ie**: Another significant player, with a user-friendly interface but similar issues with search functionality.
+3. **Property Price Register (PPR)**: Provides statutory public records of residential sales since 2010, but data is raw and lacks user-friendly search capabilities.
 
-### How People Search Today
-- **Traditional Methods**: Users often rely on multiple platforms to compare listings, leading to **listing fatigue**.
-- **Mobile Search**: A growing trend, with **over 60%** of users utilizing mobile devices for property searches.
-- **Social Media**: Increasingly utilized for informal property searches and recommendations.
+### User Search Behavior
+- Users typically rely on property portals for both sales and rentals.
+- Common search criteria include price, location, property type, and features, but many users express frustration with the lack of detailed filtering options.
+- Users often face challenges in understanding market prices and trends due to the opaque nature of sale prices and the absence of comprehensive data on property features.
 
 ## 2. User Segments & Pain Points
 
-### User Segments
-- **First-Time Homebuyers**: Often overwhelmed with choices and require guidance.
-- **Renters**: Need quick, affordable options with clear filters.
-- **Real Estate Agents**: Seek to connect with buyers/renters efficiently.
-- **Investors**: Require data-driven insights for decision-making.
+### Target User Segments
+- **First-Time Buyers**: Often overwhelmed by the complexity of the market and lack of guidance on pricing.
+- **Investors**: Require detailed insights into market trends and pricing to make informed decisions.
+- **Renters**: Face pressure from scams and a lack of transparency in rental prices and availability.
 
 ### Pain Points
-- **Bad Filters**: Existing platforms often lack nuanced filtering (e.g., pet-friendly, specific amenities).
-- **No Guidance**: Users feel lost without personalized assistance in navigating options.
-- **Listing Overload**: Users are overwhelmed by too many listings without a clear way to prioritize.
-- **Scams**: Users are wary of fraudulent listings due to a lack of verification.
-- **Time Wasted**: The average user spends **12 hours** per week searching for properties.
+- **Opaque Sale Prices**: Users find it difficult to understand if sale prices are fair, especially with the prevalence of `**` prices in the PPR.
+- **Bad Filters**: Existing platforms have limited filtering options, making it hard to find suitable properties.
+- **No Guidance**: Users lack support in understanding market dynamics, leading to wasted time and effort.
+- **Scam Pressure**: Renters often encounter fraudulent listings, which erodes trust in the rental market.
 
 ## 3. Competitive Landscape
 
-### Existing Solutions
-- **Zillow/Realtor/Redfin**: Strong in listings but lack personalized, conversational search capabilities.
-- **Chatbots**: Some platforms have rudimentary chatbots but lack advanced AI and contextual understanding.
+### Current Offerings
+- **Daft.ie and MyHome.ie**: Strong in listings but weak in conversational interfaces and AI-driven insights.
+- **PPR**: Comprehensive data source but lacks a user-friendly interface and conversational capabilities.
 
-### Gaps in the Market
-- **Personalization**: Most platforms fail to offer tailored search experiences based on user preferences.
-- **Conversational UI**: Limited availability of AI-driven conversational agents that guide users through the search process.
-- **Data Integration**: Many platforms do not leverage real-time data for accurate listings.
+### Identified Gaps
+- **Conversational Interfaces**: No existing solutions leverage the PPR data in a conversational manner, making the information more accessible.
+- **Data Interpretation**: Users need assistance interpreting raw data to make informed property decisions.
 
 ## 4. Opportunity
 
 ### Problem Statement
-Users face significant challenges in efficiently finding rental and sale properties due to poor filtering, overwhelming choices, and a lack of personalized guidance.
+Users in the Irish property market struggle with opaque pricing, poor search functionalities, and a lack of guidance, leading to frustration and inefficiency.
 
 ### Target Persona
-**First-Time Homebuyer**: A 28-year-old professional, tech-savvy, seeking a home in Chicago, frustrated with the current search process and looking for a streamlined, guided experience.
+**First-Time Homebuyer**: A young professional in Dublin seeking to purchase their first home, feeling overwhelmed by high prices and complex market dynamics.
 
 ### Why an AI-First Conversational Assistant Wins
-- **Personalized Interaction**: AI can learn user preferences and provide tailored recommendations.
-- **Efficiency**: Reduces time spent searching by filtering through vast data quickly.
-- **Trust**: AI can enhance trust by verifying listings and filtering out scams.
+- **Accessibility of Data**: An AI assistant can simplify the interpretation of PPR data, providing users with clear, actionable insights.
+- **Enhanced User Experience**: A conversational interface can guide users through the search process, addressing pain points in real-time.
+- **Real-Time Information**: By leveraging live data from the PPR, users receive up-to-date insights, improving their decision-making process.
 
 ## 5. Constraints & Risks
 
-### Data Licensing
-- Potential challenges in securing licenses for real-time listing data from platforms like MLS or SimplyRETS.
-
-### Accuracy of Listings
-- Ensuring that AI-generated summaries and recommendations are based on accurate, up-to-date information.
-
-### Trust
-- Building user trust in AI recommendations and ensuring transparency in how data is used.
-
-### Regulations
-- Compliance with local laws and regulations regarding real estate advertising and data privacy.
+- **PPR Data Licensing**: Compliance with data attribution and usage rights is crucial.
+- **Missing Property Features**: The absence of details such as bedrooms and floor area in the PPR may limit the assistant's effectiveness.
+- **Accuracy of Sale-Price Signals**: Users may misinterpret sale prices, especially those marked with `**`.
+- **Trust Issues**: Building trust with users is essential, particularly in a market fraught with scams.
+- **GDPR Compliance**: Ensuring user data privacy and compliance with regulations is a must.
 
 ## 6. Evidence-Backed Recommendations
 
-- **Implement Advanced Filters**: Develop nuanced filters that address user needs, such as pet policies, school districts, etc.
-- **Integrate Conversational AI**: Use AI to create a chatbot that can engage users in natural language, providing personalized assistance.
-- **Focus on Trust**: Develop features that verify listings and provide users with transparency in data sources.
-- **Leverage Data Analytics**: Utilize data to identify market trends and inform users about the best times to buy or rent.
+- **Product Focus**: Develop an AI assistant that provides insights based on PPR sales data, complemented by demo rental listings.
+- **Geography**: Concentrate on the Irish market, utilizing EUR (€) as the currency.
+- **User-Friendly Interface**: Implement a conversational interface that allows users to filter search results by county and eircode.
+- **Data Utilization**: Use the PPR data effectively while acknowledging its limitations (e.g., lack of property features).
 
 ---
 
 ## Handoff to Designer
-
-I am passing on a comprehensive analysis of the real estate property-search landscape, identifying key user pain points and competitive gaps. The next agent should focus on designing an intuitive user interface that incorporates advanced filtering options and a conversational AI element, ensuring a seamless user experience.
+I am passing on a comprehensive analysis of the Irish property search landscape, including market state, user segments, competitive landscape, and identified opportunities for an AI assistant. I recommend the next agent focus on translating these insights into a user-friendly interface that addresses the identified pain points and leverages the unique strengths of our AI-driven product.

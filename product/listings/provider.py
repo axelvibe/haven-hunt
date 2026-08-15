@@ -1,8 +1,10 @@
 """Listing provider interface + factory.
 
-The product ships with a built-in demo dataset so it works with zero setup.
-When SIMPLYRETS_USERNAME/PASSWORD are provided, live listings are fetched
-through the SimplyRETS API and merged with (or replace) the demo set.
+The product ships with two offline sources that work with zero setup:
+  * demo rentals (sample_data.py) — simulated, clearly labelled `demo`
+  * a real PPR sales snapshot (data/ppr_snapshot.json) — live Irish sales data
+When PPR_FETCH is enabled (default "auto"), the live PPR API provider is added
+and the snapshot's record is refreshed on the next run.
 """
 from __future__ import annotations
 
@@ -10,70 +12,17 @@ import logging
 import os
 from typing import Any
 
+from product.listings.base import ListingsProvider
+from product.listings.matching import matches as _matches
 from product.listings.models import Listing
+from product.listings.ppr import PPRSnapshotProvider
 from product.listings.sample_data import LISTINGS
 
 log = logging.getLogger("havenhunt.listings")
 
 
-class ListingsProvider:
-    """Interface all providers implement."""
-
-    name = "base"
-
-    def all(self) -> list[Listing]:
-        raise NotImplementedError
-
-    def search(
-        self,
-        query: str = "",
-        listing_type: str | None = None,  # "rent" | "sale"
-        min_price: float | None = None,
-        max_price: float | None = None,
-        beds_min: float | None = None,
-        neighborhoods: list[str] | None = None,
-        pet_friendly: bool | None = None,
-        limit: int = 12,
-    ) -> list[Listing]:
-        raise NotImplementedError
-
-
-def _matches(l: Listing, query: str, filters: dict[str, Any]) -> bool:
-    q = query.lower()
-    if q:
-        haystack = " ".join(
-            [
-                l.title,
-                l.description,
-                l.neighborhood,
-                l.property_type,
-                l.listing_type,
-                " ".join(l.amenities),
-            ]
-        ).lower()
-        if all(word in haystack for word in q.split()):
-            pass
-        elif not any(word in haystack for word in q.split()):
-            return False
-
-    if filters.get("listing_type") and l.listing_type != filters["listing_type"]:
-        return False
-    if filters.get("min_price") is not None and l.price < filters["min_price"]:
-        return False
-    if filters.get("max_price") is not None and l.price > filters["max_price"]:
-        return False
-    if filters.get("beds_min") is not None and l.beds < filters["beds_min"]:
-        return False
-    if filters.get("pet_friendly") is True and not l.pet_friendly:
-        return False
-    if filters.get("neighborhoods"):
-        if l.neighborhood.lower() not in {n.lower() for n in filters["neighborhoods"]}:
-            return False
-    return True
-
-
 class StaticProvider(ListingsProvider):
-    """Serves the curated demo dataset. Fast, offline, deterministic."""
+    """Serves the curated demo rental dataset. Fast, offline, deterministic."""
 
     name = "demo"
 
@@ -91,7 +40,7 @@ class StaticProvider(ListingsProvider):
 
 
 class CompositeProvider(ListingsProvider):
-    """Demo data first; live listings enrich the results when available."""
+    """Offline sources first; live providers enrich the results when available."""
 
     name = "composite"
 
@@ -123,19 +72,18 @@ class CompositeProvider(ListingsProvider):
 
 
 def build_provider() -> ListingsProvider:
-    """Build the provider from environment configuration."""
-    username = os.getenv("SIMPLYRETS_USERNAME", "").strip()
-    password = os.getenv("SIMPLYRETS_PASSWORD", "").strip()
-
+    """Build the provider: demo rentals + PPR snapshot, plus live PPR when enabled."""
     providers: list[ListingsProvider] = [StaticProvider()]
-    if username and password:
-        try:
-            from product.listings.simplyrets import SimplyRETSProvider
+    providers.append(PPRSnapshotProvider())
+    log.info("PPR snapshot provider enabled (offline real sales data).")
 
-            providers.append(SimplyRETSProvider(username=username, password=password))
-            log.info("Live SimplyRETS provider enabled.")
+    if os.getenv("PPR_FETCH", "auto").lower() != "off":
+        try:
+            from product.listings.ppr import PPRApiProvider
+
+            providers.append(PPRApiProvider())
+            log.info("Live PPR API provider enabled.")
         except Exception as exc:  # noqa: BLE001
-            log.warning("Could not initialise SimplyRETS provider: %s", exc)
-    if len(providers) > 1:
-        return CompositeProvider(providers)
-    return providers[0]
+            log.warning("Could not initialise live PPR provider: %s", exc)
+
+    return CompositeProvider(providers)

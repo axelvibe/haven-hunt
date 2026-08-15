@@ -2,18 +2,17 @@
 
 Flow:
   1. `SearchEngine.answer(query)` parses the user's natural language into structured
-     filters (listing type, price range, bedrooms, pet-friendly, neighborhood) using
-     the LLM (JSON mode).
+     filters (listing type, price range, bedrooms, pet-friendly, county) using the
+     LLM (JSON mode).
   2. Filters are applied over the provider's listings (keyword/filter pass).
   3. Results are re-ranked by cosine similarity against OpenAI embeddings of the
-     listings, so fuzzy descriptions like "lake views" or "near the 606" work.
+     listings, so fuzzy descriptions like "sea views" or "near the DART" work.
   4. The LLM writes a short, human answer summarising the top matches.
 """
 from __future__ import annotations
 
 import json
 import logging
-import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -36,6 +35,7 @@ class Filters:
     max_price: float | None = None
     beds_min: float | None = None
     pet_friendly: bool | None = None
+    counties: list[str] = field(default_factory=list)
     neighborhoods: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict:
@@ -45,28 +45,34 @@ class Filters:
             "max_price": self.max_price,
             "beds_min": self.beds_min,
             "pet_friendly": self.pet_friendly,
+            "counties": self.counties,
             "neighborhoods": self.neighborhoods,
         }
 
 
 _INTENT_SYSTEM = """\
-You extract structured search filters from a user's real-estate query. Respond with \
-JSON only, using exactly these keys:
+You extract structured search filters from a user's real-estate query for the
+Republic of Ireland. Respond with JSON only, using exactly these keys:
 {
   "listing_type": "rent" | "sale" | null,
   "min_price": number | null,
   "max_price": number | null,
   "beds_min": number | null,
   "pet_friendly": true | false | null,
+  "counties": [string] | [],
   "neighborhoods": [string] | []
 }
 Rules:
-- "rent", "rental", "lease", "apartment for rent" -> listing_type "rent".
-- "buy", "purchase", "for sale", "home to buy" -> listing_type "sale".
-- Prices: "$1800/mo" or "under 2k" -> max_price; "over 300k" -> min_price.
-- Bedrooms: "1 bed", "one bedroom", "2bd" -> beds_min (studio -> 0).
+- "rent", "rental", "lease", "to let", "apartment for rent" -> listing_type "rent".
+- "buy", "purchase", "for sale", "home to buy", "sold" -> listing_type "sale".
+- Prices are in EUR: "€1800/mo" or "under 2k" -> max_price 2000; "over 300k" -> min_price 300000.
+  Treat "k" as thousands of euros.
+- Bedrooms: "1 bed", "one bedroom", "2bd", "two-bedroom" -> beds_min.
+  "studio" -> beds_min 0.
 - "pet friendly", "dogs allowed", "cat ok" -> pet_friendly true.
-- Neighborhood/city names go into neighborhoods as exact matches.
+- County names (Dublin, Cork, Galway, Limerick, Waterford, Kerry, Mayo, Wicklow,
+  Kildare, Meath, Wexford, ...) go into counties. City/town/district names
+  (Ranelagh, Salthill, Ballincollig, Tramore, ...) go into neighborhoods.
 - Ignore greeting/filler. If nothing is extractable, emit nulls/empty arrays.
 """
 
@@ -114,6 +120,7 @@ class SearchEngine:
 
     @staticmethod
     def _embed_text(l: Listing) -> str:
+        bed = f"{l.beds} bedroom" if l.beds is not None else "bedrooms not recorded"
         return " ".join(
             [
                 l.title,
@@ -121,13 +128,15 @@ class SearchEngine:
                 l.listing_type,
                 l.neighborhood,
                 l.city,
+                l.county,
+                l.eircode or "",
                 l.description,
                 " ".join(l.amenities),
                 "pet friendly" if l.pet_friendly else "",
                 "parking" if l.parking else "",
                 "furnished" if l.furnished else "",
-                f"{l.price:,.0f} dollars",
-                f"{l.beds} bedroom",
+                f"{l.price:,.0f} euros",
+                bed,
             ]
         ).strip()
 
@@ -147,7 +156,6 @@ class SearchEngine:
     def parse_intent(self, query: str) -> Filters:
         """Extract structured filters from a natural-language query."""
         q = (query or "").strip()
-        # Fast path for very short numeric queries handled by keyword anyway.
         if not q or len(q) < 3:
             return Filters()
         try:
@@ -167,6 +175,7 @@ class SearchEngine:
                 max_price=data.get("max_price"),
                 beds_min=data.get("beds_min"),
                 pet_friendly=data.get("pet_friendly"),
+                counties=[c.strip() for c in (data.get("counties") or []) if c.strip()],
                 neighborhoods=[n.strip() for n in (data.get("neighborhoods") or []) if n.strip()],
             )
         except Exception as exc:  # noqa: BLE001
@@ -184,6 +193,7 @@ class SearchEngine:
             min_price=f.min_price,
             max_price=f.max_price,
             beds_min=f.beds_min,
+            counties=f.counties or None,
             neighborhoods=f.neighborhoods or None,
             pet_friendly=f.pet_friendly,
             limit=50,
@@ -212,16 +222,19 @@ class SearchEngine:
         if not results:
             return (
                 "I couldn't find anything matching that just yet. Try removing a "
-                "filter, widening your budget, or asking for a different neighborhood. "
-                "You can also ask for “rentals under $2,500” or “2-bed condos near the lake”."
+                "filter, widening your budget, or asking for a different county or "
+                "neighborhood. You can also ask for “rentals under €2,000” or "
+                "“2-bed apartments in Cork”."
             )
         block = "\n\n".join(l.to_text() for l in results)
         system = (
-            "You are HavenHunt, a warm, expert Chicago real-estate assistant. "
+            "You are HavenHunt, a warm, expert Irish real-estate assistant. "
             "Answer the user's question in 3-6 short lines, referencing the top "
-            "matches below by address/neighborhood and price. Be specific, honest, "
-            "and end by offering one helpful follow-up question. Do not invent "
-            "listings that are not in the provided data."
+            "matches below by area and price. Note that sales data comes from the "
+            "Property Price Register (PPR), which records sale prices but no "
+            "bedroom or floor-area details. Be specific, honest, and end by "
+            "offering one helpful follow-up question. Do not invent listings that "
+            "are not in the provided data."
         )
         return self.llm.chat(
             [

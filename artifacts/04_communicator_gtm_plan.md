@@ -1,115 +1,108 @@
 # Go-To-Market Plan for HavenHunt
 
-This document outlines the comprehensive go-to-market plan for HavenHunt, designed to position the product effectively in the real estate market and drive user engagement.
+This document outlines a comprehensive go-to-market (GTM) plan for HavenHunt, an AI-driven property search assistant leveraging the Property Price Register (PPR) in Ireland.
 
 ## 1. Brand Platform
 
-### Positioning Statement
-HavenHunt is your smart, AI-driven property search assistant, simplifying the journey to finding your perfect home in Chicago.
+### Position Statement
+HavenHunt is your trusted companion in navigating the complexities of the Irish property market, making property sales and demo rentals accessible and understandable for everyone.
 
 ### Tagline Candidates
-- "Your Smart Property Search Assistant"
-- "Find Your Perfect Home, Effortlessly"
-- "Navigating Real Estate, Together"
-- "HavenHunt: Where Home Search Meets Smart Technology"
+- "Your guide to Irish property."
+- "Navigate the Irish market with ease."
+- "Uncover the story behind every sale."
+- "Find your haven in Ireland."
 
-### Voice and Tone Guidelines
-**Tone**: Friendly, trustworthy, and innovative.
-
-**Voice**:
-- **Conversational**: Engage users as if you’re having a personal chat.
-- **Supportive**: Offer guidance and reassurance throughout the search process.
-- **Informative**: Provide clear, concise information without overwhelming users.
+### Voice-and-Tone Guidelines
+- **Warm**: Use friendly, approachable language, inviting users to explore.
+- **Trustworthy**: Provide clear, honest information, especially regarding data limitations.
+- **Proudly Irish**: Reflect local culture and terminology, using EUR (€), counties, and eircodes.
 
 ## 2. Messaging Architecture
 
-### Audience 1: Renters
-- **Problem**: Overwhelmed by too many listings and poor filtering options.
-- **Promise**: Find the perfect rental quickly and easily with tailored recommendations.
-- **Proof**: "Our AI learns your preferences, filtering out irrelevant listings."
-- **Next Step**: Start a conversation with our chatbot to find your ideal rental.
+### Target Audiences
+1. **First-Time Buyers**
+   - **Problem**: Overwhelmed by high prices and complex market dynamics.
+   - **Promise**: Gain clarity and confidence in your property search with real, actionable insights.
+   - **Proof**: Access to the Property Price Register (PPR) provides accurate sale prices; demo rentals help you explore options without pressure.
+   - **Next Step**: Start your property journey with our Telegram bot to find recent sales and demo rentals.
 
-### Audience 2: Buyers
-- **Problem**: Struggling to navigate the home-buying process with too many choices.
-- **Promise**: Simplify your home-buying journey with personalized property suggestions.
-- **Proof**: "Chat with our AI to get real-time listings that match your needs."
-- **Next Step**: Initiate a chat and let us guide you to your dream home.
+2. **Movers**
+   - **Problem**: Confused by varying prices and neighborhoods.
+   - **Promise**: Simplified comparisons and insights tailored to your needs.
+   - **Proof**: Real-time data from the PPR allows for informed decisions; demo rentals give a taste of the market.
+   - **Next Step**: Use our chatbot to compare prices across counties and find suitable rentals.
 
-### Audience 3: Property Professionals
-- **Problem**: Difficulty connecting with potential buyers/renters efficiently.
-- **Promise**: Streamline your client interactions and showcase listings effectively.
-- **Proof**: "Our chatbot engages users and highlights your properties seamlessly."
-- **Next Step**: Partner with HavenHunt to enhance your property visibility.
+3. **Property Professionals**
+   - **Problem**: Lack of accessible, accurate market data for client advice.
+   - **Promise**: Enhance your market insights with reliable data at your fingertips.
+   - **Proof**: Leverage the PPR's comprehensive sales data to guide clients effectively.
+   - **Next Step**: Integrate HavenHunt into your workflow by using our chatbot for quick data retrieval.
 
 ## 3. Launch Campaign
 
 ### 30-Day Launch Plan
-| Week | Channel              | Activities                                                                 |
-|------|---------------------|---------------------------------------------------------------------------|
-| 1    | Telegram            | Launch the bot with a welcome campaign, highlighting features and benefits. |
-|      | Social Media        | Share teasers about the product and engage users with polls and questions.  |
-|      | Website             | Publish the landing page with an embedded chat widget for immediate access.  |
-| 2    | Telegram            | Run a "Find Your Home" challenge encouraging users to share listings.        |
-|      | Social Media        | Post testimonials and user stories from early adopters.                      |
-|      | Influencer Outreach | Partner with local real estate influencers to promote HavenHunt.             |
-| 3    | Telegram            | Host a live Q&A session with potential users to address their queries.       |
-|      | Social Media        | Share educational content about navigating the real estate market.           |
-|      | Email Marketing     | Send newsletters featuring tips and success stories using HavenHunt.         |
-| 4    | Telegram            | Offer a referral incentive for users who share the bot with friends.         |
-|      | Social Media        | Highlight success stories and feature user-generated content.                |
-|      | Website             | Optimize the landing page based on user feedback for better engagement.      |
 
-### Acquisition Loop
-Encourage users to share their favorite listings on social media with a unique hashtag. Each share enters them into a draw for a prize, increasing visibility and user engagement.
+| Week | Channel        | Content Highlights                                      | Acquisition Loop                            |
+|------|----------------|--------------------------------------------------------|--------------------------------------------|
+| 1    | Telegram       | Bot introduction, user onboarding messages             | Encourage users to share their experiences with friends for referral bonuses. |
+| 2    | Social Media   | Share testimonials, success stories, and property insights | Run a contest for users who share the bot with the most friends. |
+| 3    | Web Presence   | Launch landing page with chatbot; blog posts on market insights | Promote a "first inquiry" bonus for new users. |
+| 4    | Email Campaign | Targeted emails to first-time buyers and movers with guides | Encourage users to submit their property questions for a chance to be featured. |
+
+### Content Calendar Highlights
+- **Week 1**: Launch announcement; bot features and benefits.
+- **Week 2**: User stories and testimonials; highlight unique selling points.
+- **Week 3**: Blog posts on market trends; tips for first-time buyers.
+- **Week 4**: Webinars or Q&A sessions featuring property experts.
 
 ## 4. Bot Copy Pack
 
-### First-run `/start` Message
+### First-Run `/start` Message
 ```
-Welcome to HavenHunt! 🏡 I'm here to help you find your perfect home in Chicago. Whether you're looking to rent or buy, just tell me what you need, and I'll find the best options for you!
+👋 Welcome to HavenHunt! Your trusted guide to navigating the Irish property market. Whether you're looking to buy your first home or find a rental, I'm here to help. Start by asking about recent sales, comparing prices, or exploring demo rentals in your area!
 ```
 
 ### Search Reply Template
 ```
-Here are some listings that match your criteria:
-1. **[Property Address]** - $[Price] | [Bedrooms] BR | [Location] 
-   - [Brief Description]
-   - [Link for more details]
-
-Would you like to explore more options or ask about a specific property?
+Here are the recent sales in [County] for the last month:
+1. [Address] - Sale Price: €[Price] (no beds recorded)
+2. [Address] - Sale Price: €[Price] (no beds recorded)
+...
+Note: Prices marked with ** indicate non-full market prices.
 ```
 
 ### Sample User Replies
-1. "I'm looking for a pet-friendly apartment under $2000."
-2. "What homes are available in Lincoln Park with 3 bedrooms?"
-3. "Can you show me listings with a garden or outdoor space?"
+1. "What homes sold in Dublin last month?"
+2. "How do prices in Cork compare to Galway?"
+3. "Show me demo rentals under €1,500 in Galway."
 
 ## 5. Website Copy
 
 ### Hero Headline
-"Find Your Perfect Home, Effortlessly"
+"Navigate the Irish Property Market with Confidence"
 
 ### Subhead
-"Discover a smarter way to search for rental and sale properties in Chicago with our AI-driven assistant."
+"Discover real sale prices and demo rental listings, all in one friendly chatbot."
 
-### CTA
-"Start Your Search"
+### Call-to-Action (CTA)
+"Start Your Search Now"
 
-### About the Organisation Story
-At HavenHunt, we're on a mission to transform the property search experience. Our innovative AI-driven chatbot simplifies the journey for renters and buyers by providing personalized recommendations and verified listings. With a five-agent pipeline working seamlessly together, we ensure that every search is efficient, trustworthy, and user-friendly. Let us help you navigate the real estate landscape, one chat at a time.
+### About the Organisation
+At HavenHunt, we believe that understanding the property market should be accessible to everyone. Our AI-driven assistant connects you with real sales data from the Property Price Register, guiding you through the complexities of buying and renting in Ireland. With a dedicated team of agents working seamlessly together, we aim to empower you with the insights you need to make informed property decisions.
 
 ## 6. Success Metrics
 
 ### Week 1-4 Metrics
-- **User Engagement**: Number of users interacting with the bot.
-- **Listings Viewed**: Total listings viewed by users.
-- **Conversion Rate**: Percentage of users who initiate a search and receive listings.
-- **User Satisfaction**: Feedback collected through surveys post-interaction.
+- **User Engagement**: Number of active users interacting with the bot.
+- **Query Volume**: Total queries made through the bot.
+- **Conversion Rate**: Percentage of users who initiate a search and find relevant information.
+- **Referral Growth**: Number of new users acquired through existing user referrals.
 
 ### North-Star Metric
-- **Daily Active Users (DAU)**: Measure the growth and retention of users engaging with HavenHunt daily.
+- **Monthly Active Users (MAUs)**: Track the number of unique users engaging with the bot on a monthly basis to gauge overall product adoption and engagement.
 
 ---
 
 ## Handoff to Manager
-I am passing on a detailed go-to-market plan for HavenHunt, including brand positioning, messaging architecture for key audiences, a launch campaign, bot copy, website copy, and success metrics. The next agent should focus on executing the launch plan and optimizing outreach strategies to maximize user acquisition and engagement.
+I am passing on a complete go-to-market plan for HavenHunt, including brand positioning, messaging architecture, a launch campaign, bot copy, website content, and success metrics. I recommend the next agent focus on overseeing the execution of this plan and ensuring that all messaging aligns with our brand voice and user needs.
