@@ -36,6 +36,10 @@ the report so the Manager audits reality, not claims.
   `product/listings/data/ppr_snapshot.json`.
 - PPR records **sale prices only** — no beds/baths/floor area. Those fields are
   `None` and shown as "not recorded". PPR is **sales-only** (no rentals).
+- **CSO house-price statistics** — the official Irish market context. The Central
+  Statistics Office's Residential Property Price Index (RPPI, Base 2015=100) is read
+  live from PxStat dataset **HPM09** (no API key) in `product/listings/cso.py`, with
+  a 24h cache. Exposed as `GET /stats` and the Telegram `/stats` command.
 - **Google Maps API** — geocoding + map links via `product/listings/geocode.py`,
   with an OpenStreetMap Nominatim fallback when no API key is set.
 - Rentals are **simulated demo data**, clearly labelled `demo`.
@@ -46,11 +50,11 @@ the report so the Manager audits reality, not claims.
 pipeline/        the organisation: agents, orchestrator, patch executor
 artifacts/       5-cycle output: research, design, build, GTM, exec summary, QA review
 product/
-  listings/      domain model, 48 Irish demo rentals, PPR providers, geocoder, search
+  listings/      domain model, 48 Irish demo rentals, PPR providers, CSO stats, geocoder, search
   bot/           Telegram chatbot (aiogram 3)
-  web/           GitHub Pages landing page + FastAPI /chat API
+  web/           GitHub Pages landing page + FastAPI /chat + /stats API
   shared/        env config + lazy OpenAI client
-tests/           18 offline tests (pytest)
+tests/           22 offline tests (pytest)
 deploy/          Dockerfile, entrypoint, render.yaml
 .github/         Pages deployment workflow
 ```

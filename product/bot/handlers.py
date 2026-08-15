@@ -184,7 +184,7 @@ async def cmd_help(event: Message | CallbackQuery) -> None:
         "Commands:\n"
         "/start — main menu\n"
         "/search &lt;query&gt; — run a search\n"
-        "/help — this message\n"
+        "/stats — latest CSO house price index\n"
         "/web — open the website"
     )
     if isinstance(event, CallbackQuery):
@@ -200,6 +200,41 @@ async def cmd_web(message: Message) -> None:
     await message.answer(
         f"🌐 Meet the <b>HavenHunt</b> organisation and try the web chat:\n{url}"
     )
+
+
+def _format_stats(s: dict) -> str:
+    year, month = s["latest_period"][:4], s["latest_period"][4:]
+    nat = s["national"]
+    lines = [
+        "📊 <b>Irish House Prices — CSO Property Price Index</b>",
+        f"Latest: {month}/{year} · Base 2015=100\n",
+        f"🇮🇪 <b>National</b>: index {nat['index']:.1f} "
+        f"(+{nat['change_12m']:.1f}% vs a year ago)",
+    ]
+    for r in s["regions"]:
+        if r["index"] is None or r["change_12m"] is None:
+            continue
+        if r["name"] == "National - all residential properties":
+            continue
+        lines.append(
+            f"• {r['name'].replace(' - ', ': ')} — index {r['index']:.1f} "
+            f"(+{r['change_12m']:.1f}% YoY)"
+        )
+    lines.append(f"\n<i>{s['source']}</i>")
+    return "\n".join(lines)
+
+
+@router.message(Command("stats"))
+@cooldown()
+async def cmd_stats(message: Message) -> None:
+    from product.listings.cso import housing_stats
+
+    await message.answer_chat_action("typing")
+    s = await asyncio.to_thread(housing_stats)
+    if not s:
+        await message.answer("CSO statistics are temporarily unavailable — try again in a bit.")
+        return
+    await message.answer(_format_stats(s), disable_web_page_preview=True)
 
 
 @router.message(Command("search"))

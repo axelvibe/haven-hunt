@@ -120,4 +120,23 @@
   foot.textContent = cfg.apiUrl
     ? "Live search is connected to the HavenHunt API (PPR sales data)."
     : "In-page live search needs HH_API_URL — you can still chat on Telegram.";
+
+  const pulse = document.getElementById("pulse");
+  const pulseText = document.getElementById("pulse-text");
+  if (pulse && pulseText && cfg.apiUrl) {
+    fetch(cfg.apiUrl.replace(/\/$/, "") + "/stats", { method: "GET" })
+      .then(function (r) { return r.json(); })
+      .then(function (s) {
+        if (s && s.national && s.national.index != null) {
+          const y = s.latest_period.slice(0, 4), m = s.latest_period.slice(4);
+          const yoy = s.national.change_12m;
+          pulseText.textContent =
+            "index " + s.national.index.toFixed(1) + " (Base 2015=100) · " +
+            "+" + yoy.toFixed(1) + "% vs a year ago · " + m + "/" + y +
+            " · source: " + s.source;
+          pulse.hidden = false;
+        }
+      })
+      .catch(function () { pulse.hidden = true; });
+  }
 })();

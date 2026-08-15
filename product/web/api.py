@@ -69,6 +69,14 @@ def geocode(req: GeocodeRequest) -> dict[str, Any]:
     return {"query": req.q, "point": point, "map_url": maps_url(point["lat"], point["lng"])}
 
 
+@app.get("/stats")
+def stats() -> dict[str, Any]:
+    """Irish Residential Property Price Index (CSO) market context."""
+    from product.listings.cso import housing_stats
+
+    return housing_stats()
+
+
 # Static site (also usable standalone on Render/Railway if not on Pages)
 app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
 
